@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vote for Today's Menu</title>
+    <!-- Add Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Optional: Add Material Icons for icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+{% if user.is_authenticated %}
+    {% if user.name %}
+        <div class="row">
+            <div class="col s12">
+                <p class="center-align">Welcome, {{ user.name }}</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col s12">
+                <p class="center-align">Welcome, {{ user.email }}</p>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+<!-- Rest of your HTML content goes here -->
+<h1 class="center-align">Today's Menu</h1>
+<div class="container">
+    <form method="post" class="col s12">
+        {% csrf_token %}
+        <div class="row">
+            {% for menu in menus %}
+                <div class="input-field col s12">
+                    <label>
+                        <input type="radio" name="menu_id" value="{{ menu.id }}">
+                        <span>{{ menu.restaurant.name }} - {{ menu.items }}</span>
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="center-align">
+            <button class="btn waves-effect waves-light" type="submit">Vote</button>
+        </div>
+    </form>
+</div>
